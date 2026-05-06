@@ -236,10 +236,6 @@ Edit `config.json` to customize default training parameters:
 3. **Memory issues**: Reduce batch size or use smaller layer sizes
 4. **Poor accuracy**: Try different learning rates, epochs, or network architectures
 
-## Contributing
-
-Contributions are welcome. Please ensure code clarity and proper documentation.
-
 ## License
 
 This project is part of the École 42 Machine Learning curriculum.
