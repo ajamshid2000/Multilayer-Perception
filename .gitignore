@@ -16,8 +16,10 @@ __pycache__/
 
 # Project specific
 data/*.npy
+data_train.csv
+data_test.csv
 models/*.npy
-models/*.png
-models/*.jpg
+plots/*.png
+plots/*.jpg
 
 
