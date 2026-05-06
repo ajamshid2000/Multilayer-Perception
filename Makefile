@@ -45,5 +45,7 @@ clean:
 	find . -type d -name '__pycache__' -delete
 	rm -rf build/ dist/ *.egg-info
 	rm -rf .pytest_cache/ .coverage htmlcov/
+	rm -rf $(MODEL_DIR)/*.npy $(PLOTS_DIR)/*
+	rm -rf $(DATA_DIR)/data_train.csv $(DATA_DIR)/data_valid.csv
 
 .DEFAULT_GOAL := help
