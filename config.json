@@ -8,7 +8,7 @@
   },
   
   "training": {
-    "epochs": 100,
+    "epochs": 1000,
     "batch_size": 32,
     "learning_rate": 0.01,
     "validation_split": 0.2,
@@ -23,8 +23,8 @@
   },
   
   "output": {
-    "model_path": "models/trained_model.npy",
-    "history_path": "models/training_history.npy",
-    "plots_dir": "models/plots"
+    "model_path": "../models/trained_model.npy",
+    "history_path": "../models/training_history.npy",
+    "plots_dir": "../models/plots"
   }
 }

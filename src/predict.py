@@ -7,6 +7,7 @@ import argparse
 import sys
 import os
 from pathlib import Path
+import json
 
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -21,19 +22,26 @@ def binary_cross_entropy(y_true: np.ndarray, probabilities: np.ndarray) -> float
 
 
 def main():
+    try:
+        f = open("config.json")
+        conf = json.load(f)
+    except:
+        print("config.json does not exist, initializing using default value")
+        conf = 0
+    
     parser = argparse.ArgumentParser(
         description='Make predictions using a trained Multilayer Perceptron model on breast cancer dataset.'
     )
     parser.add_argument(
         '--model',
         type=str,
-        default='models/trained_model.npy',
-        help='Path to the trained model file (default: models/trained_model.npy)'
+        default=conf["output"]["model_path"] if conf else 'models/trained_model.npy',
+        help='Path to save the trained model (default: models/trained_model.npy)'
     )
     parser.add_argument(
         '--data-dir',
         type=str,
-        default='data',
+        default=conf["data"]["data_dir"] if conf else 'data',
         help='Directory containing dataset files (default: data)'
     )
     parser.add_argument(
@@ -47,7 +55,10 @@ def main():
         action='store_true',
         help='Show prediction probabilities'
     )
-
+    
+    if(conf):
+        f.close()
+        
     args = parser.parse_args()
 
     print("=" * 60)

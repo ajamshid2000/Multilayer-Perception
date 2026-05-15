@@ -7,6 +7,7 @@ import argparse
 import sys
 import os
 from pathlib import Path
+import json
 
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -16,69 +17,76 @@ from utils import Visualization
 
 
 def main():
+    try:
+        f = open("config.json")
+        conf = json.load(f)
+    except:
+        print("config.json does not exist, initializing using default value")
+        conf = 0
+    
     parser = argparse.ArgumentParser(
         description='Train a Multilayer Perceptron on breast cancer dataset.'
     )
     parser.add_argument(
         '--epochs',
         type=int,
-        default=100,
+        default=conf["training"]["epochs"] if conf else 100,
         help='Number of training epochs (default: 100)'
     )
     parser.add_argument(
         '--batch-size',
         type=int,
-        default=32,
+        default=conf["training"]["batch_size"] if conf else 32,
         help='Batch size for training (default: 32)'
     )
     parser.add_argument(
         '--learning-rate',
         type=float,
-        default=0.01,
+        default=conf["training"]["learning_rate"] if conf else 0.01,
         help='Learning rate (default: 0.01)'
     )
     parser.add_argument(
         '--layers',
         type=int,
         nargs='+',
-        default=[30, 16, 16, 2],
+        default=conf["network"]["layer_sizes"] if conf else [30, 16, 16, 2],
         help='Layer sizes (default: [30, 16, 16, 2])'
     )
     parser.add_argument(
         '--activation',
         type=str,
-        default='relu',
+        default=conf["network"]["activation"] if conf else 'relu',
         choices=['relu', 'sigmoid', 'tanh'],
         help='Activation function (default: relu)'
     )
     parser.add_argument(
         '--model-path',
         type=str,
-        default='models/trained_model.npy',
+        default=conf["output"]["model_path"] if conf else 'models/trained_model.npy',
         help='Path to save the trained model (default: models/trained_model.npy)'
     )
     parser.add_argument(
         '--history-path',
         type=str,
-        default='models/training_history.npy',
+        default=conf["output"]["history_path"] if conf else 'models/training_history.npy',
         help='Path to save the training history (default: models/training_history.npy)'
     )
     parser.add_argument(
         '--plots-dir',
         type=str,
-        default='models/plots',
+        default=conf["output"]["plots_dir"] if conf else 'models/plots',
         help='Directory to save training plots (default: models/plots)'
     )
     parser.add_argument(
         '--data-dir',
         type=str,
-        default='data',
+        default=conf["data"]["data_dir"] if conf else 'data',
         help='Directory containing dataset files (default: data)'
     )
     parser.add_argument(
         '--validation-split',
         type=float,
-        default=0.2,
+        default=conf["training"]["validation_split"] if conf else 0.2,
         help='Validation split ratio (default: 0.2)'
     )
     parser.add_argument(
@@ -88,6 +96,9 @@ def main():
         help='Random seed for reproducible splitting (default: 42)'
     )
 
+    if(conf):
+        f.close()
+    
     args = parser.parse_args()
 
     print("=" * 60)

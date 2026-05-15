@@ -12,19 +12,6 @@ class DataLoader:
     """Utilities for loading and preprocessing datasets."""
     
     @staticmethod
-    def normalize(X: np.ndarray) -> np.ndarray:
-        """
-        Normalize data to [0, 1] range.
-        
-        Args:
-            X: Input data
-        
-        Returns:
-            Normalized data
-        """
-        return X / 255.0 if X.max() > 1 else X
-    
-    @staticmethod
     def standardize(X: np.ndarray) -> np.ndarray:
         """
         Standardize data (zero mean, unit variance).
