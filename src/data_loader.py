@@ -63,7 +63,6 @@ class DataLoader:
             y: Binary labels (0=benign, 1=malignant)
         """
         file_path = os.path.join(data_dir, filename)
-
         if os.path.exists(file_path):
             raw = np.genfromtxt(file_path, delimiter=',', dtype=str, skip_header=1)
             if raw.ndim == 1:
@@ -75,30 +74,35 @@ class DataLoader:
             y = np.where(diagnosis == 'M', 1, 0).astype(int)
             X = raw[:, 2:].astype(float)
             return X, y
+        else:
+            print(f"Breast cancer CSV not found at {file_path}. Please ensure the dataset is available.")
+            exit(1)
+        
+        # Note: The following code block is intentionally left as a comment to avoid automatic dataset generation.
 
-        try:
-            from sklearn.datasets import load_breast_cancer
-        except ImportError as exc:
-            raise FileNotFoundError(
-                f"Breast cancer CSV not found at {file_path} and scikit-learn is unavailable."
-            ) from exc
+        # try:
+        #     from sklearn.datasets import load_breast_cancer
+        # except ImportError as exc:
+        #     raise FileNotFoundError(
+        #         f"Breast cancer CSV not found at {file_path} and scikit-learn is unavailable."
+        #     ) from exc
 
-        print(f"Breast cancer CSV not found. Generating dataset from scikit-learn and writing {file_path}...")
-        data = load_breast_cancer()
-        X = data.data
-        class_names = [name.lower() for name in data.target_names]
-        malignant_index = class_names.index('malignant') if 'malignant' in class_names else 0
-        y = (data.target == malignant_index).astype(int)
+        # print(f"Breast cancer CSV not found. Generating dataset from scikit-learn and writing {file_path}...")
+        # data = load_breast_cancer()
+        # X = data.data
+        # class_names = [name.lower() for name in data.target_names]
+        # malignant_index = class_names.index('malignant') if 'malignant' in class_names else 0
+        # y = (data.target == malignant_index).astype(int)
 
-        os.makedirs(data_dir, exist_ok=True)
-        with open(file_path, 'w', newline='') as csvfile:
-            writer = csv.writer(csvfile)
-            header = ['id', 'diagnosis'] + [str(name) for name in data.feature_names]
-            writer.writerow(header)
-            for i, (row, label) in enumerate(zip(X, y), start=1):
-                writer.writerow([i, 'M' if label == 1 else 'B'] + row.tolist())
+        # os.makedirs(data_dir, exist_ok=True)
+        # with open(file_path, 'w', newline='') as csvfile:
+        #     writer = csv.writer(csvfile)
+        #     header = ['id', 'diagnosis'] + [str(name) for name in data.feature_names]
+        #     writer.writerow(header)
+        #     for i, (row, label) in enumerate(zip(X, y), start=1):
+        #         writer.writerow([i, 'M' if label == 1 else 'B'] + row.tolist())
 
-        return X, y
+        # return X, y
 
     @staticmethod
     def _load_breast_cancer_split_file(file_path: str) -> Tuple[np.ndarray, np.ndarray]:

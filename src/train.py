@@ -137,8 +137,6 @@ def main():
     )
     
     args = parser.parse_args()
-    
-    print(args.data_dir)
 
     print("=" * 60)
     print("Multilayer Perceptron Training")
