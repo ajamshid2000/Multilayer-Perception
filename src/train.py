@@ -18,8 +18,8 @@ from utils import Visualization
 
 def main():
     try:
-        f = open("config.json")
-        conf = json.load(f)
+        with open("../config.json") as f:
+            conf = json.load(f)
     except:
         print("config.json does not exist, initializing using default value")
         conf = 0
@@ -30,63 +30,103 @@ def main():
     parser.add_argument(
         '--epochs',
         type=int,
-        default=conf["training"]["epochs"] if conf else 100,
+        default=conf["training"]["epochs"]  
+        if conf 
+        and "training" in conf 
+        and "epochs" in conf["training"] 
+        else 100,
         help='Number of training epochs (default: 100)'
     )
     parser.add_argument(
         '--batch-size',
         type=int,
-        default=conf["training"]["batch_size"] if conf else 32,
+        default=conf["training"]["batch_size"] 
+        if conf 
+        and "training" in conf 
+        and "batch_size" in conf["training"] 
+        else 32,
         help='Batch size for training (default: 32)'
     )
     parser.add_argument(
         '--learning-rate',
         type=float,
-        default=conf["training"]["learning_rate"] if conf else 0.01,
+        default=conf["training"]["learning_rate"] 
+        if conf 
+        and "training" in conf 
+        and "learning_rate" in conf["training"] 
+        else 0.01,
         help='Learning rate (default: 0.01)'
     )
     parser.add_argument(
         '--layers',
         type=int,
         nargs='+',
-        default=conf["network"]["layer_sizes"] if conf else [30, 16, 16, 2],
+        default=conf["network"]["layer_sizes"] 
+        if conf 
+        and "network" in conf 
+        and "layer_sizes" in conf["network"] 
+        else [30, 16, 16, 2],
         help='Layer sizes (default: [30, 16, 16, 2])'
     )
     parser.add_argument(
         '--activation',
         type=str,
-        default=conf["network"]["activation"] if conf else 'relu',
+        default=conf["network"]["activation"] 
+        if conf 
+        and "network" in conf 
+        and "activation" in conf["network"] 
+        else 'relu',
         choices=['relu', 'sigmoid', 'tanh'],
         help='Activation function (default: relu)'
     )
     parser.add_argument(
         '--model-path',
         type=str,
-        default=conf["output"]["model_path"] if conf else 'models/trained_model.npy',
-        help='Path to save the trained model (default: models/trained_model.npy)'
+        default=conf["output"]["model_path"] 
+        if conf 
+        and "output" in conf 
+        and "model_path" in conf["output"] 
+        else '../models/trained_model.npy',
+        help='Path to save the trained model (default: ../models/trained_model.npy)'
     )
     parser.add_argument(
         '--history-path',
         type=str,
-        default=conf["output"]["history_path"] if conf else 'models/training_history.npy',
-        help='Path to save the training history (default: models/training_history.npy)'
+        default=conf["output"]["history_path"] 
+        if conf 
+        and "output" in conf 
+        and "history_path" in conf["output"] 
+        else '../models/training_history.npy',
+        help='Path to save the training history (default: ../models/training_history.npy)'
     )
     parser.add_argument(
         '--plots-dir',
         type=str,
-        default=conf["output"]["plots_dir"] if conf else 'models/plots',
-        help='Directory to save training plots (default: models/plots)'
+        default=conf["output"]["plots_dir"]  
+        if conf 
+        and "output" in conf 
+        and "plots_dir" in conf["output"] 
+        else '../models/plots',
+        help='Directory to save training plots (default: ../models/plots)'
     )
     parser.add_argument(
         '--data-dir',
         type=str,
-        default=conf["data"]["data_dir"] if conf else 'data',
-        help='Directory containing dataset files (default: data)'
+        default=conf["data"]["data_dir"] 
+        if conf 
+        and "data" in conf 
+        and "data_dir" in conf["data"] 
+        else '../data',
+        help='Directory containing dataset files (default: ../data)'
     )
     parser.add_argument(
         '--validation-split',
         type=float,
-        default=conf["training"]["validation_split"] if conf else 0.2,
+        default=conf["training"]["validation_split"] 
+        if conf 
+        and "training" in conf 
+        and "validation_split" in conf["training"] 
+        else 0.2,
         help='Validation split ratio (default: 0.2)'
     )
     parser.add_argument(
@@ -95,11 +135,10 @@ def main():
         default=42,
         help='Random seed for reproducible splitting (default: 42)'
     )
-
-    if(conf):
-        f.close()
     
     args = parser.parse_args()
+    
+    print(args.data_dir)
 
     print("=" * 60)
     print("Multilayer Perceptron Training")

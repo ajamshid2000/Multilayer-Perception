@@ -8,7 +8,7 @@
   },
   
   "training": {
-    "epochs": 1000,
+    "epochs": 100,
     "batch_size": 32,
     "learning_rate": 0.01,
     "validation_split": 0.2,
@@ -19,7 +19,7 @@
     "dataset": "breast_cancer",
     "normalize": false,
     "standardize": true,
-    "data_dir": "data"
+    "data_dir": "../data"
   },
   
   "output": {

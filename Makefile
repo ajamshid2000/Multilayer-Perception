@@ -23,21 +23,10 @@ split:
 	python split_dataset.py --data-dir $(DATA_DIR) --validation-split 0.2
 
 train:
-	cd src && python train.py \
-		--data-dir ../$(DATA_DIR) \
-		--model-path ../$(MODEL_DIR)/trained_model.npy \
-		--history-path ../$(MODEL_DIR)/training_history.npy \
-		--plots-dir ../$(PLOTS_DIR) \
-		--epochs 100 \
-		--batch-size 32 \
-		--learning-rate 0.01 \
-		--layers 30 16 16 2
+	cd src && python train.py
 
 predict:
-	cd src && python predict.py \
-		--model ../$(MODEL_DIR)/trained_model.npy \
-		--data-dir ../$(DATA_DIR) \
-		--num-samples 10
+	cd src && python predict.py
 
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true

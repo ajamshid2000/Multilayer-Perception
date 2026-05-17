@@ -23,8 +23,8 @@ def binary_cross_entropy(y_true: np.ndarray, probabilities: np.ndarray) -> float
 
 def main():
     try:
-        f = open("config.json")
-        conf = json.load(f)
+        with open("../config.json") as f:
+            conf = json.load(f)
     except:
         print("config.json does not exist, initializing using default value")
         conf = 0
@@ -35,13 +35,21 @@ def main():
     parser.add_argument(
         '--model',
         type=str,
-        default=conf["output"]["model_path"] if conf else 'models/trained_model.npy',
+        default=conf["output"]["model_path"]
+        if conf 
+        and "output" in conf 
+        and "model_path" in conf["output"] 
+        else 'models/trained_model.npy',
         help='Path to save the trained model (default: models/trained_model.npy)'
     )
     parser.add_argument(
         '--data-dir',
         type=str,
-        default=conf["data"]["data_dir"] if conf else 'data',
+        default=conf["data"]["data_dir"] 
+        if conf 
+        and "data" in conf 
+        and "data_dir" in conf["data"] 
+        else 'data',
         help='Directory containing dataset files (default: data)'
     )
     parser.add_argument(
@@ -55,9 +63,6 @@ def main():
         action='store_true',
         help='Show prediction probabilities'
     )
-    
-    if(conf):
-        f.close()
         
     args = parser.parse_args()
 
