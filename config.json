@@ -3,8 +3,7 @@
   
   "network": {
     "layer_sizes": [30, 16, 16, 2],
-    "activation": "relu",
-    "initialization": "xavier"
+    "activation": "relu"
   },
   
   "training": {
@@ -12,12 +11,11 @@
     "batch_size": 32,
     "learning_rate": 0.01,
     "validation_split": 0.2,
-    "shuffle": true
+    "random_seed": 42
   },
   
   "data": {
-    "dataset": "breast_cancer",
-    "normalize": false,
+    "dataset": "data.csv",
     "standardize": true,
     "data_dir": "../data"
   },

@@ -3,41 +3,65 @@ Split Wisconsin breast cancer dataset into training and validation CSV files.
 """
 
 import argparse
+import json
 import os
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from src.data_loader import DataLoader
+from data_loader import DataLoader
 
 
 def main():
+    try:
+        with open("../config.json") as f:
+            conf = json.load(f)
+    except:
+        print("config.json does not exist, initializing using default value")
+        conf = 0
+        
     parser = argparse.ArgumentParser(
         description='Split breast cancer dataset into training and validation CSV files.'
     )
     parser.add_argument(
         '--data-dir',
         type=str,
-        default='data',
+        default=conf["data"]["data_dir"] 
+        if conf 
+        and "data" in conf 
+        and "data_dir" in conf["data"] 
+        else '../data',
         help='Directory for dataset files (default: data)'
     )
     parser.add_argument(
         '--source-file',
         type=str,
-        default='data.csv',
+        default=conf["data"]["dataset"] 
+        if conf 
+        and "data" in conf 
+        and "dataset" in conf["data"] 
+        else 'data.csv',
         help='Source CSV file name for breast cancer dataset'
     )
     parser.add_argument(
         '--validation-split',
         type=float,
-        default=0.2,
+        default=conf["training"]["validation_split"] 
+        if conf 
+        and "training" in conf 
+        and "validation_split" in conf["training"] 
+        else 0.2,
         help='Validation split ratio (default: 0.2)'
     )
     parser.add_argument(
         '--random-seed',
         type=int,
-        default=42,
+        default=conf["training"]["random_seed"] 
+        if conf 
+        and "training" in conf 
+        and "random_seed" in conf["training"] 
+        else 42,
         help='Random seed for reproducibility'
     )
 

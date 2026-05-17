@@ -215,14 +215,19 @@ Edit `config.json` to customize default training parameters:
     "layer_sizes": [30, 16, 16, 2],
     "activation": "relu"
   },
+  
   "training": {
     "epochs": 100,
     "batch_size": 32,
-    "learning_rate": 0.01
+    "learning_rate": 0.01,
+    "validation_split": 0.2,
+    "random_seed": 42
   },
+  
   "data": {
-    "dataset": "breast_cancer",
-    "data_dir": "data"
+    "dataset": "data.csv",
+    "standardize": true,
+    "data_dir": "../data"
   }
 }
 ```

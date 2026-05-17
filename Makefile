@@ -20,7 +20,7 @@ install:
 	pip install -r requirements.txt
 
 split:
-	python split_dataset.py --data-dir $(DATA_DIR) --validation-split 0.2
+	cd src && python split_dataset.py --data-dir ../$(DATA_DIR) --validation-split 0.2
 
 train:
 	cd src && python train.py

@@ -132,7 +132,11 @@ def main():
     parser.add_argument(
         '--random-seed',
         type=int,
-        default=42,
+        default=conf["training"]["random_seed"] 
+        if conf 
+        and "training" in conf 
+        and "random_seed" in conf["training"] 
+        else 42,
         help='Random seed for reproducible splitting (default: 42)'
     )
     
